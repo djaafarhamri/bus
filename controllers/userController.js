@@ -37,13 +37,17 @@ const createToken = (id) => {
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
+
   try {
     const user = await User.login(email, password);
-    const token = createToken({ id: user._id, role: user.role });
+    console.log(user)
+    const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json("login succeed");
+    res.status(200).json({ user: user._id });
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err);
+    res.status(400).json({ errors });
   }
 };
 

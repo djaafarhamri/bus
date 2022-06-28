@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const { isEmail } = require("validator");
 
 //Sign up
 const busSchema = mongoose.Schema(
@@ -23,7 +21,7 @@ const busSchema = mongoose.Schema(
       required: [true, "please enter your depart_ville"],
     },
     depart_time: {
-      type: Date,
+      type: String,
       required: [true, "please enter your depart_time"],
     },
     arrival_ville: {
@@ -31,7 +29,7 @@ const busSchema = mongoose.Schema(
       required: [true, "please enter your arrival_ville"],
     },
     arrival_time: {
-      type: Date,
+      type: String,
       required: [true, "please enter your arrival_time"],
     },
     max_personnes: {

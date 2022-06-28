@@ -40,7 +40,7 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["client", "vendor", "admin"],
       default: "client",
-    }
+    },
   },
   { collection: "users" }
 );
@@ -52,19 +52,20 @@ userSchema.pre("save", async function (next) {
 });
 
 
-
-//login
-userSchema.statics.login = async function (email, password) {
+// static method to login user
+userSchema.statics.login = async function(email, password) {
   const user = await this.findOne({ email });
+  console.log(email);
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
       return user;
     }
-    console.log("incorrect password");
+    throw Error('incorrect password');
   }
-  console.log("incorrect email");
+  throw Error('incorrect email');
 };
+
 
 const model = mongoose.model("userSchema", userSchema);
 

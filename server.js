@@ -10,6 +10,7 @@ dotenv.config();
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/userRoute");
+const busRoute = require("./routes/busRoute");
 
 const PORT = process.env.PORT || 4000;
 // app.use(
@@ -59,3 +60,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/user", userRoute);
+app.use("/bus", busRoute);
+
+
