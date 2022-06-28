@@ -33,7 +33,6 @@ const requireAdmin = (req, res, next) => {
         res.send('err')
     } else {
         let user = await User.findById(decodedToken.id.id);
-        
         if(user.role === 'admin'){
           req.user = user
           next();
