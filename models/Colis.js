@@ -36,7 +36,10 @@ const colisSchema = mongoose.Schema(
         type: String,
         required: [true, "please enter your remarque"],
     },
-
+    creation_date: {
+        type: Date,
+        default: Date.now(),
+    }
   },
   { collection: "colis" }
 );
