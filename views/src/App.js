@@ -1,14 +1,18 @@
 import './App.css';
 import { Routes, Route } from 'react-router'
 import Nav from './shared/Nav'
+import Home from './pages/Home/Home';
+import Live from './pages/Live/Live';
+import AddBus from './pages/Add-Bus/AddBus';
 
 function App() {
   return (
-    <div className="App">
+    <div className="flex">
       <Nav />
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
-        <Route path="/about" element={<h1>About</h1>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/live" element={<Live />} />
+        <Route path="/add-bus" element={<AddBus />} />
       </Routes>
     </div>
   );
