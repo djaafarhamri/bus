@@ -2,7 +2,7 @@ const Bus = require("../models/bus");
 
 module.exports.add_bus = (req, res) => {
   const {
-    ref,
+    id,
     ticket_price,
     colis_price,
     depart_ville,
@@ -13,7 +13,7 @@ module.exports.add_bus = (req, res) => {
     max_colis,
   } = req.body;
   Bus.create({
-    ref,
+    id,
     ticket_price,
     colis_price,
     depart_ville,
@@ -30,3 +30,14 @@ module.exports.add_bus = (req, res) => {
       res.status(400).json(err);
     });
 };
+
+module.exports.getAll = (req, res) => {
+  console.log("getAll");
+  Bus.find()
+    .then((buses) => {
+      res.status(200).json(buses);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+}

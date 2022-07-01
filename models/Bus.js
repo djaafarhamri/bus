@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 //Sign up
 const busSchema = mongoose.Schema(
   {
-    ref: {
+    id: {
       type: String,
       required: [true, "please enter an ref"],
       unique: true,
