@@ -42,93 +42,97 @@ const AddBus = () => {
   };
 
   return (
-    <div className="m-8">
-      <Typography variant="h3" component="h3">
-        Ajouter un bus
-      </Typography>
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <TextField
-          margin="normal"
-          id="outlined-basic"
-          label="Reference*"
-          variant="outlined"
-          size="small"
-          fullWidth
-          onChange={(e) => setRef(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          id="outlined-basic"
-          label="Ticket price*"
-          variant="outlined"
-          size="small"
-          onChange={(e) => setTicketPrice(e.target.value)}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          id="outlined-basic"
-          label="Colis price*"
-          variant="outlined"
-          size="small"
-          onChange={(e) => setColisPrice(e.target.value)}
-        />
-        <div>
+    <div className="w-full flex flex-col items-center">
+      <div className="mt-10">
+        <Typography variant="h3" component="h3">
+          Ajouter un bus
+        </Typography>
+      </div>
+      <div className="mt-10">
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
           <TextField
             margin="normal"
             id="outlined-basic"
-            label="Depart ville*"
+            label="Reference*"
             variant="outlined"
             size="small"
-            onChange={(e) => setDepartVille(e.target.value)}
+            fullWidth
+            onChange={(e) => setRef(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            id="outlined-basic"
+            label="Ticket price*"
+            variant="outlined"
+            size="small"
+            onChange={(e) => setTicketPrice(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            id="outlined-basic"
+            label="Colis price*"
+            variant="outlined"
+            size="small"
+            onChange={(e) => setColisPrice(e.target.value)}
+          />
+          <div>
+            <TextField
+              margin="normal"
+              id="outlined-basic"
+              label="Depart ville*"
+              variant="outlined"
+              size="small"
+              onChange={(e) => setDepartVille(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              id="outlined-basic"
+              label="Arrive ville*"
+              variant="outlined"
+              size="small"
+              onChange={(e) => setArriveVille(e.target.value)}
+            />
+          </div>
+          <TextField
+            margin="normal"
+            id="outlined-basic"
+            label="Depart time*"
+            variant="outlined"
+            size="small"
+            fullWidth
+            onChange={(e) => setDepartTime(e.target.value)}
           />
           <TextField
             margin="normal"
             id="outlined-basic"
-            label="Arrive ville*"
+            label="Max personne*"
             variant="outlined"
             size="small"
-            onChange={(e) => setArriveVille(e.target.value)}
+            fullWidth
+            onChange={(e) => setMaxPersonne(e.target.value)}
           />
-        </div>
-        <TextField
-          margin="normal"
-          id="outlined-basic"
-          label="Depart time*"
-          variant="outlined"
-          size="small"
-          fullWidth
-          onChange={(e) => setDepartTime(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          id="outlined-basic"
-          label="Max personne*"
-          variant="outlined"
-          size="small"
-          fullWidth
-          onChange={(e) => setMaxPersonne(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          id="outlined-basic"
-          label="Max colis*"
-          variant="outlined"
-          size="small"
-          fullWidth
-          onChange={(e) => setMaxColis(e.target.value)}
-        />
-        <Button variant="contained" color="primary" onClick={add_bus}>
-          Ajouter
-        </Button>
-      </Grid>
+          <TextField
+            margin="normal"
+            id="outlined-basic"
+            label="Max colis*"
+            variant="outlined"
+            size="small"
+            fullWidth
+            onChange={(e) => setMaxColis(e.target.value)}
+          />
+          <Button variant="contained" color="primary" onClick={add_bus}>
+            Ajouter
+          </Button>
+        </Grid>
+      </div>
     </div>
   );
 };
