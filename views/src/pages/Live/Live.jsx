@@ -15,13 +15,13 @@ const columns = [
     width: 90,
   },
   {
-    field: "max_personnes",
-    headerName: "max_personnes",
+    field: "personnes",
+    headerName: "personnes",
     width: 160,
   },
   {
-    field: "max_colis",
-    headerName: "max_colis",
+    field: "colis",
+    headerName: "colis",
     width: 160,
   },
   {
@@ -42,7 +42,9 @@ export default function BusList() {
   useEffect(() => {
     axios
       .get("http://localhost:4000/bus/getAll")
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data);
+      })
       .catch((err) => console.log(err));
 
     return () => {

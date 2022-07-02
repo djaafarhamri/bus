@@ -45,8 +45,8 @@ module.exports.getAll = (req, res) => {
         arrival_ville: bus.arrival_ville,
         max_personnes: bus.max_personnes,
         max_colis: bus.max_colis,
-        colis: bus.colis,
-        personnes: bus.personnes,
+        colis: `${bus.colis.length}/${bus.max_colis}`,
+        personnes: `${bus.personnes.length}/${bus.max_personnes}`,
       })));
     })
     .catch((err) => {
