@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import { Typography } from "@material-ui/core";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -18,18 +19,21 @@ const columns = [
     headerName: "max_personnes",
     width: 160,
   },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  {
+    field: "max_colis",
+    headerName: "max_colis",
+    width: 160,
+  },
+  {
+    field: "ticket_price",
+    headerName: "ticket_price",
+    width: 160,
+  },
+  {
+    field: "colis_price",
+    headerName: "colis_price",
+    width: 160,
+  },
 ];
 
 export default function BusList() {
@@ -38,39 +42,30 @@ export default function BusList() {
   useEffect(() => {
     axios
       .get("http://localhost:4000/bus/getAll")
-      .then((res) =>
-        setData(
-          res.data.map(
-            ({
-              id,
-              depart_ville,
-              depart_time,
-              max_personnes,
-              arrival_ville,
-            }) => ({
-              id,
-              depart_ville,
-              depart_time,
-              max_personnes,
-              arrival_ville,
-            })
-          )
-        )
-      )
+      .then((res) => setData(res.data))
       .catch((err) => console.log(err));
 
-    return () => {console.log(data)};
+    return () => {
+      console.log(data);
+    };
   }, []);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+    <div className="w-full ">
+      <div className="mt-8 ml-10">
+        <Typography variant="h3" component="h3">
+          List des buss
+        </Typography>
+      </div>
+      <div className="h-[400px] w-full mt-10">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+        />
+      </div>
     </div>
   );
 }

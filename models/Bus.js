@@ -28,10 +28,6 @@ const busSchema = mongoose.Schema(
       type: String,
       required: [true, "please enter your arrival_ville"],
     },
-    arrival_time: {
-      type: String,
-      required: [true, "please enter your arrival_time"],
-    },
     max_personnes: {
       type: Number,
       required: [true, "please enter your max_personnes"],
@@ -45,7 +41,7 @@ const busSchema = mongoose.Schema(
         type: String,
       },
     ],
-    personalbar: [
+    personnes: [
       {
         type: String,
       },

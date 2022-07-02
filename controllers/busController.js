@@ -32,10 +32,22 @@ module.exports.add_bus = (req, res) => {
 };
 
 module.exports.getAll = (req, res) => {
-  console.log("getAll");
   Bus.find()
     .then((buses) => {
-      res.status(200).json(buses);
+      // res buses except _id
+      res.status(200).json(buses.map((bus) => 
+      ({
+        id: bus.id, 
+        ticket_price: bus.ticket_price,
+        colis_price: bus.colis_price,
+        depart_ville: bus.depart_ville,
+        depart_time: bus.depart_time,
+        arrival_ville: bus.arrival_ville,
+        max_personnes: bus.max_personnes,
+        max_colis: bus.max_colis,
+        colis: bus.colis,
+        personnes: bus.personnes,
+      })));
     })
     .catch((err) => {
       res.status(400).json(err);
