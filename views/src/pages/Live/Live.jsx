@@ -3,26 +3,28 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
+import edit from '../../assets/114-edit-pencil-rename-outline.png';
+import remove from '../../assets/39-trash-outline.png';
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
-  { field: "depart_ville", headerName: "depart_ville", width: 130 },
-  { field: "arrival_ville", headerName: "arrival_ville", width: 130 },
+  { field: "depart_ville", headerName: "depart_ville", width: 160 },
+  { field: "arrival_ville", headerName: "arrival_ville", width: 160 },
   {
     field: "depart_time",
     headerName: "depart_time",
-    width: 90,
+    width: 120,
   },
   {
     field: "personnes",
     headerName: "personnes",
-    width: 160,
+    width: 100,
   },
   {
     field: "colis",
     headerName: "colis",
-    width: 160,
+    width: 100,
   },
   {
     field: "ticket_price",
@@ -33,6 +35,51 @@ const columns = [
     field: "colis_price",
     headerName: "colis_price",
     width: 160,
+  },
+  {
+    field: "action",
+    headerName: "Action",
+    width: 160,
+    sortable: false,
+    renderCell: (params) => {
+      const onEdit = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+
+        const api = params.api;
+        const thisRow = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+      const onRemove = (e) => {
+        e.stopPropagation(); // don't select this row after clicking
+
+        const api = params.api;
+        const thisRow = {};
+
+        api
+          .getAllColumns()
+          .filter((c) => c.field !== "__check__" && !!c)
+          .forEach(
+            (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+          );
+
+        return alert(JSON.stringify(thisRow, null, 4));
+      };
+
+      return (
+        <>
+          <Button onClick={onEdit}><img className="h-8 w-8" src={edit} alt="edit" /></Button>
+          <Button onClick={onRemove}><img className="h-7 w-7" src={remove} alt="edit" /></Button>
+        </>
+      );
+    },
   },
 ];
 
@@ -46,10 +93,6 @@ export default function BusList() {
         setData(res.data);
       })
       .catch((err) => console.log(err));
-
-    return () => {
-      console.log(data);
-    };
   }, []);
 
   return (

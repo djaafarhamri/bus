@@ -32,7 +32,7 @@ const AddBus = () => {
       maxColis,
     };
     await axios
-      .post("http://localhost:5000/bus/add_bus", data)
+      .post("http://localhost:4000/bus/add_bus", data)
       .then((res) => {
         console.log(res.data);
       })
