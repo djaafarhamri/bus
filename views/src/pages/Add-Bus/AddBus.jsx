@@ -15,24 +15,24 @@ const AddBus = () => {
   const [departville, setDepartVille] = useState("");
   const [arriveville, setArriveVille] = useState("");
   const [departTime, setDepartTime] = useState("");
-  const [arriveTime, setArriveTime] = useState("");
   const [maxPersonne, setMaxPersonne] = useState(0);
   const [maxColis, setMaxColis] = useState(0);
 
   const add_bus = async () => {
     const data = {
-      ref,
-      ticketPrice,
-      colisPrice,
-      departville,
-      arriveville,
-      departTime,
-      arriveTime,
-      maxPersonne,
-      maxColis,
+      id: ref,
+      ticket_price: ticketPrice,
+      colis_price: colisPrice,
+      depart_ville: departville,
+      arrival_ville: arriveville,
+      depart_time: departTime,
+      max_personnes: maxPersonne,
+      max_colis: maxColis,
     };
     await axios
-      .post("http://localhost:4000/bus/add_bus", data)
+      .post("http://localhost:4000/bus/add_bus", data, {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res.data);
       })
