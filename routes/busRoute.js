@@ -14,6 +14,7 @@ router.post("/edit_arrival_ville", requireAdmin, busController.edit_arrival_vill
 router.post("/edit_max_personnes", requireAdmin, busController.edit_max_personnes);
 router.post("/edit_max_colis", requireAdmin, busController.edit_max_colis);
 
+router.post("/delete", requireAdmin, busController.delete);
 
 router.get("/getAll", busController.getAll);
 

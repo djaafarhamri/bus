@@ -32,7 +32,7 @@ module.exports.add_bus = async (req, res) => {
 
 module.exports.edit_id = async (req, res) => {
   const { id, value } = req.body;
-  await Bus.findOneAndUpdate({ id }, { id: value }) 
+  await Bus.findOneAndUpdate({ id }, { id: value })
     .then((bus) => {
       res.status(200).json(bus);
     })
@@ -43,7 +43,7 @@ module.exports.edit_id = async (req, res) => {
 
 module.exports.edit_ticket_price = async (req, res) => {
   const { id, value } = req.body;
-  await Bus.findOneAndUpdate({ id }, { ticket_price: value }) 
+  await Bus.findOneAndUpdate({ id }, { ticket_price: value })
     .then((bus) => {
       res.status(200).json(bus);
     })
@@ -61,7 +61,7 @@ module.exports.edit_colis_price = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
 module.exports.edit_depart_ville = async (req, res) => {
   const { id, value } = req.body;
@@ -72,7 +72,7 @@ module.exports.edit_depart_ville = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
 module.exports.edit_arrival_ville = async (req, res) => {
   const { id, value } = req.body;
@@ -83,7 +83,7 @@ module.exports.edit_arrival_ville = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
 module.exports.edit_depart_time = async (req, res) => {
   const { id, value } = req.body;
@@ -94,7 +94,7 @@ module.exports.edit_depart_time = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
 module.exports.edit_max_personnes = async (req, res) => {
   const { id, value } = req.body;
@@ -105,7 +105,7 @@ module.exports.edit_max_personnes = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
 module.exports.edit_max_colis = async (req, res) => {
   const { id, value } = req.body;
@@ -116,8 +116,18 @@ module.exports.edit_max_colis = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
 
+module.exports.delete = async (req, res) => {
+  const { id } = req.body;
+  await Bus.findOneAndDelete({ id })
+    .then((bus) => {
+      res.status(200).json(bus);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
 
 module.exports.getAll = (req, res) => {
   Bus.find()
