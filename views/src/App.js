@@ -5,6 +5,8 @@ import Home from './pages/Home/Home';
 import Live from './pages/Live/Live';
 import AddBus from './pages/Add-Bus/AddBus';
 import Login from './pages/LoginPage/Login';
+import Personne from './pages/Personne/Personne';
+import Colis from './pages/Colis/Colis';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/live" element={<Live />} />
         <Route path="/add-bus" element={<AddBus />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/personne" element={<Personne />} />
+        <Route path="/colis" element={<Colis />} />
       </Routes>
     </div>
   );
