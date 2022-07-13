@@ -8,7 +8,7 @@ import {
   Container,
 } from "@material-ui/core";
 
-const Personne = () => {
+const Ticket = () => {
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
@@ -20,7 +20,7 @@ const Personne = () => {
     <div className="w-full flex flex-col items-center">
       <div className="mt-10">
         <Typography variant="h3" component="h3">
-          Personne ticket
+          Ticket
         </Typography>
       </div>
       <div className="mt-10">
@@ -76,4 +76,4 @@ const Personne = () => {
   );
 };
 
-export default Personne;
+export default Ticket;
