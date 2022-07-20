@@ -52,16 +52,16 @@ module.exports.edit_ticket_price = async (req, res) => {
     });
 };
 
-module.exports.edit_colis_price = async (req, res) => {
-  const { id, value } = req.body;
-  await Bus.findOneAndUpdate({ id }, { colis_price: value })
-    .then((bus) => {
-      res.status(200).json(bus);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-};
+// module.exports.edit_colis_price = async (req, res) => {
+//   const { id, value } = req.body;
+//   await Bus.findOneAndUpdate({ id }, { colis_price: value })
+//     .then((bus) => {
+//       res.status(200).json(bus);
+//     })
+//     .catch((err) => {
+//       res.status(400).json(err);
+//     });
+// };
 
 module.exports.edit_depart_ville = async (req, res) => {
   const { id, value } = req.body;
@@ -107,16 +107,6 @@ module.exports.edit_max_personnes = async (req, res) => {
     });
 };
 
-module.exports.edit_max_colis = async (req, res) => {
-  const { id, value } = req.body;
-  await Bus.findOneAndUpdate({ id }, { max_colis: value })
-    .then((bus) => {
-      res.status(200).json(bus);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-};
 
 module.exports.delete = async (req, res) => {
   const { id } = req.body;
@@ -137,13 +127,10 @@ module.exports.getAll = (req, res) => {
         buses.map((bus) => ({
           id: bus.id,
           ticket_price: bus.ticket_price,
-          colis_price: bus.colis_price,
           depart_ville: bus.depart_ville,
           depart_time: bus.depart_time,
           arrival_ville: bus.arrival_ville,
           max_personnes: bus.max_personnes,
-          max_colis: bus.max_colis,
-          colis: `${bus.colis.length}/${bus.max_colis}`,
           personnes: `${bus.personnes.length}/${bus.max_personnes}`,
         }))
       );

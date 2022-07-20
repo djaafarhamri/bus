@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 //Sign up
 const colisSchema = mongoose.Schema(
   {
-    bus: {
+    truck: {
         type: String,
         required: [true, "please enter a bus"],
     },

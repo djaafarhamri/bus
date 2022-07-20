@@ -6,15 +6,22 @@ import {
   TextField,
   Grid,
   Container,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
 
 const Ticket = () => {
+  const [category, setCategory] = useState();
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
   const [remarque, setRemarque] = useState("");
+  const [expediteur, setExpediteur] = useState("");
+  const [beneficiare, setBeneficiare] = useState("");
 
-    const print = () => {}
+  const print = () => {};
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -40,6 +47,21 @@ const Ticket = () => {
             fullWidth
             onChange={(e) => setRef(e.target.value)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="CategoryID">Category</InputLabel>
+            <Select
+              labelId="CategoryID"
+              id="category"
+              value={category}
+              label="Category"
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
+            >
+              <MenuItem value={"colis"}>Colis</MenuItem>
+              <MenuItem value={"personne"}>Personne</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             fullWidth
             margin="normal"
@@ -66,6 +88,26 @@ const Ticket = () => {
             size="small"
             onChange={(e) => setRemarque(e.target.value)}
           />
+          {category === "colis" && (
+            <>
+              <TextField
+                margin="normal"
+                id="outlined-basic"
+                label="expediteur*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setExpediteur(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                id="outlined-basic"
+                label="beneficiare*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setBeneficiare(e.target.value)}
+              />
+            </>
+          )}
 
           <Button variant="contained" color="primary" onClick={print}>
             Print

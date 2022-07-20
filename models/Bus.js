@@ -12,10 +12,6 @@ const busSchema = mongoose.Schema(
       type: Number,
       required: [true, "please enter your ticket_price"],
     },
-    colis_price: {
-      type: Number,
-      required: [true, "please enter your ticket_price"],
-    },
     depart_ville: {
       type: String,
       required: [true, "please enter your depart_ville"],
@@ -32,15 +28,6 @@ const busSchema = mongoose.Schema(
       type: Number,
       required: [true, "please enter your max_personnes"],
     },
-    max_colis: {
-      type: Number,
-      required: [true, "please enter your max_personnes"],
-    },
-    colis: [
-      {
-        type: String,
-      },
-    ],
     personnes: [
       {
         type: String,
@@ -53,15 +40,15 @@ const busSchema = mongoose.Schema(
 
 busSchema.pre('validate', function (next) {
   console.log("this: ", this);
-  if (this.colis.length < 4){
+  if (this.personnes.length < this.max_personnes){
     next();
   } else {
     var error = new mongoose.Error.ValidationError(this);
-    error.errors.colis = new mongoose.Error.ValidatorError(
-      "colis",
-      "max colis",
+    error.errors.personnes = new mongoose.Error.ValidatorError(
+      "personnes",
+      "max personnes",
       "notvalid",
-      this.colis
+      this.personnes
     );
     return next(error);
   }
