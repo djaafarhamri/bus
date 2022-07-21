@@ -4,6 +4,7 @@ const busController = require("../controllers/busController");
 const { requireAdmin, checkUser } = require("../middlewares/authMiddleware");
 
 router.post("/add_bus", requireAdmin, busController.add_bus);
+router.post("/add_truck", requireAdmin, busController.add_truck);
 
 router.post("/edit_id", requireAdmin, busController.edit_id);
 router.post("/edit_ticket_price", requireAdmin, busController.edit_ticket_price);

@@ -4,22 +4,44 @@ module.exports.add_bus = async (req, res) => {
   const {
     id,
     ticket_price,
-    colis_price,
     depart_ville,
     depart_time,
     arrival_ville,
     max_personnes,
+  } = req.body;
+  console.log(req.body);
+  await Bus.create({
+    id,
+    ticket_price,
+    depart_ville,
+    depart_time,
+    arrival_ville,
+    max_personnes,
+  })
+    .then((bus) => {
+      res.status(200).json(bus);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+module.exports.add_truck = async (req, res) => {
+  const {
+    id,
+    frais,
+    depart_ville,
+    depart_time,
+    arrival_ville,
     max_colis,
   } = req.body;
   console.log(req.body);
   await Bus.create({
     id,
     ticket_price,
-    colis_price,
+    frais,
     depart_ville,
     depart_time,
     arrival_ville,
-    max_personnes,
     max_colis,
   })
     .then((bus) => {
