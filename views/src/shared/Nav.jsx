@@ -62,14 +62,14 @@ const AdminNav = () => {
                 />
               </svg>
 
-              <span className="mx-4 font-medium">Home</span>
+              <span className="mx-4 font-medium">Camion</span>
             </p>
           </Link>
 
-          <Link to="/live">
+          <Link to="/bus">
             <p
               className={
-                location.pathname === "/live" ? selectedCss : notselectedCss
+                location.pathname === "/bus" ? selectedCss : notselectedCss
               }
               href="#"
             >
@@ -95,7 +95,7 @@ const AdminNav = () => {
                 />
               </svg>
 
-              <span className="mx-4 font-medium">Live</span>
+              <span className="mx-4 font-medium">Bus</span>
             </p>
           </Link>
 

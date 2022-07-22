@@ -53,7 +53,7 @@ const AddBus = () => {
       max_colis: maxColis,
     };
     await axios
-      .post("http://localhost:4000/bus/add_truck", data, {
+      .post("http://localhost:4000/truck/add_truck", data, {
         withCredentials: true,
       })
       .then((res) => {
@@ -175,11 +175,11 @@ const AddBus = () => {
           )}
           {type === "bus" ? (
             <Button variant="contained" color="primary" onClick={add_bus}>
-              Ajouter
+              Ajouter un bus
             </Button>
           ) : (
             <Button variant="contained" color="primary" onClick={add_truck}>
-              Ajouter
+              Ajouter un camion
             </Button>
           )}
         </Grid>
