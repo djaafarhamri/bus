@@ -137,3 +137,19 @@ module.exports.getAll = (req, res) => {
       res.status(400).json(err);
     });
 };
+
+module.exports.getAllByDepart = async (req, res) => {
+  const { depart } = req.params;
+  await Bus.find({ depart_ville: depart })
+    .then((buses) => {
+      // res buses except _id
+      res.status(200).json(
+        buses.map((bus) => ({
+          arrival_ville: bus.arrival_ville,
+        }))
+      );
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+}

@@ -15,5 +15,6 @@ router.post("/edit_max_personnes", requireAdmin, busController.edit_max_personne
 router.post("/delete", requireAdmin, busController.delete);
 
 router.get("/getAll", busController.getAll);
+router.get("/getAllByDepart/:depart", busController.getAllByDepart);
 
 module.exports = router;

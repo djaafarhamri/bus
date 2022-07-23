@@ -16,7 +16,9 @@ import { useEffect } from "react";
 const Ticket = () => {
   const [category, setCategory] = useState();
   const [allDepart, setAllDepart] = useState();
+  const [allArrival, setAllArrival] = useState();
   const [depart, setDepart] = useState();
+  const [arrival, setArrival] = useState();
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
@@ -36,6 +38,15 @@ const Ticket = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/bus/getAllByDepart/${depart}`)
+      .then((res) => {
+        setAllArrival(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [depart]);
   const print = () => {};
 
   return (
@@ -92,6 +103,26 @@ const Ticket = () => {
                 {allDepart.map((depart) => (
                   <MenuItem value={depart.depart_ville}>
                     {depart.depart_ville}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+          {allArrival && (
+            <FormControl fullWidth>
+              <InputLabel id="ArrivalID">Arrival ville</InputLabel>
+              <Select
+                labelId="ArrivalID"
+                id="arrival"
+                value={arrival}
+                label="Arrival Ville"
+                onChange={(e) => {
+                  setArrival(e.target.value);
+                }}
+              >
+                {allArrival.map((arrival) => (
+                  <MenuItem value={arrival.arrival_ville}>
+                    {arrival.arrival_ville}
                   </MenuItem>
                 ))}
               </Select>
