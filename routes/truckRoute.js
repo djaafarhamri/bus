@@ -15,5 +15,7 @@ router.post("/edit_max_colis", requireAdmin, truckController.edit_max_colis);
 router.post("/delete", requireAdmin, truckController.delete);
 
 router.get("/getAll", truckController.getAll);
+router.get("/getAllByDepart/:depart", truckController.getAllByDepart);
+
 
 module.exports = router;

@@ -28,7 +28,7 @@ const Ticket = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/bus/getAll")
+      .get(`http://localhost:4000/${category === 'personne' ? 'bus':'truck'}/getAll`)
       .then((res) => {
         setAllDepart(
           res.data.map((bus) => ({
@@ -37,16 +37,16 @@ const Ticket = () => {
         );
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/bus/getAllByDepart/${depart}`)
+      .get(`http://localhost:4000/${category === 'personne' ? 'bus':'truck'}/getAllByDepart/${depart}`)
       .then((res) => {
         setAllArrival(res.data);
       })
       .catch((err) => console.log(err));
-  }, [depart]);
+  }, [depart, category]);
   const print = () => {};
 
   return (
