@@ -11,13 +11,19 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { useEffect } from "react";
 
 const Ticket = () => {
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState('personne');
   const [allDepart, setAllDepart] = useState();
   const [allArrival, setAllArrival] = useState();
   const [depart, setDepart] = useState();
+  const [departDay, setDepartDay] = useState();
+  const [departTime, setDepartTime] = useState();
   const [arrival, setArrival] = useState();
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
@@ -26,9 +32,20 @@ const Ticket = () => {
   const [expediteur, setExpediteur] = useState("");
   const [beneficiare, setBeneficiare] = useState("");
 
+  const handleTimeChange = (newValue) => {
+    setDepartTime(newValue);
+  };
+  const handleDayChange = (newValue) => {
+    setDepartDay(newValue);
+  };
+
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/${category === 'personne' ? 'bus':'truck'}/getAll`)
+      .get(
+        `http://localhost:4000/${
+          category === "personne" ? "bus" : "truck"
+        }/getAll`
+      )
       .then((res) => {
         setAllDepart(
           res.data.map((bus) => ({
@@ -41,7 +58,11 @@ const Ticket = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/${category === 'personne' ? 'bus':'truck'}/getAllByDepart/${depart}`)
+      .get(
+        `http://localhost:4000/${
+          category === "personne" ? "bus" : "truck"
+        }/getAllByDepart/${depart}`
+      )
       .then((res) => {
         setAllArrival(res.data);
       })
@@ -128,27 +149,47 @@ const Ticket = () => {
               </Select>
             </FormControl>
           )}
-          {category === "colis" && (
-            <TextField
-              fullWidth
-              margin="normal"
-              id="outlined-basic"
-              label="Frais*"
-              variant="outlined"
-              size="small"
-              onChange={(e) => setFrais(e.target.value)}
+          {/* <MobileDatePicker
+          label="Date mobile"
+          inputFormat="MM/dd/yyyy"
+          value={value}
+          onChange={handleChange}
+          renderInput={(params) => <TextField {...params} />}
+        /> */}
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DesktopDatePicker
+              label="Depart Date"
+              inputFormat="MM/DD/yyyy"
+              value={departDay}
+              onChange={handleDayChange}
+              renderInput={(params) => <TextField {...params} />}
             />
-          )}
-          <TextField
-            margin="normal"
-            id="outlined-basic"
-            label="Remarque*"
-            variant="outlined"
-            size="small"
-            onChange={(e) => setRemarque(e.target.value)}
-          />
+            <TimePicker
+              label="Time"
+              value={departTime}
+              onChange={handleTimeChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
           {category === "colis" && (
             <>
+              <TextField
+                fullWidth
+                margin="normal"
+                id="outlined-basic"
+                label="Frais*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setFrais(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                id="outlined-basic"
+                label="Remarque*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setRemarque(e.target.value)}
+              />
               <TextField
                 margin="normal"
                 id="outlined-basic"
