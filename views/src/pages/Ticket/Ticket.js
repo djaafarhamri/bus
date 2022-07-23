@@ -11,9 +11,12 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
+import { useEffect } from "react";
 
 const Ticket = () => {
   const [category, setCategory] = useState();
+  const [allDepart, setAllDepart] = useState();
+  const [depart, setDepart] = useState();
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
@@ -21,6 +24,18 @@ const Ticket = () => {
   const [expediteur, setExpediteur] = useState("");
   const [beneficiare, setBeneficiare] = useState("");
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/bus/getAll")
+      .then((res) => {
+        setAllDepart(
+          res.data.map((bus) => ({
+            depart_ville: bus.depart_ville,
+          }))
+        );
+      })
+      .catch((err) => console.log(err));
+  }, []);
   const print = () => {};
 
   return (
@@ -62,28 +77,41 @@ const Ticket = () => {
               <MenuItem value={"personne"}>Personne</MenuItem>
             </Select>
           </FormControl>
+          {allDepart && (
+            <FormControl fullWidth>
+              <InputLabel id="DepartID">Depart ville</InputLabel>
+              <Select
+                labelId="DepartID"
+                id="depart"
+                value={depart}
+                label="Depart Ville"
+                onChange={(e) => {
+                  setDepart(e.target.value);
+                }}
+              >
+                {allDepart.map((depart) => (
+                  <MenuItem value={depart.depart_ville}>
+                    {depart.depart_ville}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+          {category === "colis" && (
+            <TextField
+              fullWidth
+              margin="normal"
+              id="outlined-basic"
+              label="Frais*"
+              variant="outlined"
+              size="small"
+              onChange={(e) => setFrais(e.target.value)}
+            />
+          )}
           <TextField
-            fullWidth
             margin="normal"
             id="outlined-basic"
-            label="Ticket price*"
-            variant="outlined"
-            size="small"
-            onChange={(e) => setBus(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            id="outlined-basic"
-            label="Colis price*"
-            variant="outlined"
-            size="small"
-            onChange={(e) => setFrais(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            id="outlined-basic"
-            label="Depart ville*"
+            label="Remarque*"
             variant="outlined"
             size="small"
             onChange={(e) => setRemarque(e.target.value)}
