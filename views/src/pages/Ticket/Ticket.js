@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
+import { useReactToPrint } from "react-to-print";
 import {
   Typography,
   Button,
@@ -18,13 +19,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { useEffect } from "react";
 
 const Ticket = () => {
-  const [category, setCategory] = useState('personne');
+  const [category, setCategory] = useState("personne");
   const [allDepart, setAllDepart] = useState();
   const [allArrival, setAllArrival] = useState();
   const [depart, setDepart] = useState();
   const [departDay, setDepartDay] = useState();
   const [departTime, setDepartTime] = useState();
   const [arrival, setArrival] = useState();
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
   const [ref, setRef] = useState("");
   const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
@@ -32,12 +35,20 @@ const Ticket = () => {
   const [expediteur, setExpediteur] = useState("");
   const [beneficiare, setBeneficiare] = useState("");
 
+  const billet = useRef(null);
+
   const handleTimeChange = (newValue) => {
     setDepartTime(newValue);
   };
+
   const handleDayChange = (newValue) => {
+    console.log(newValue._d);
     setDepartDay(newValue);
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => billet.current,
+  });
 
   useEffect(() => {
     axios
@@ -149,6 +160,28 @@ const Ticket = () => {
               </Select>
             </FormControl>
           )}
+          {category === "personne" && (
+            <>
+              <TextField
+                fullWidth
+                margin="normal"
+                id="outlined-basic"
+                label="M. / MME*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                id="outlined-basic"
+                label="Contact*"
+                variant="outlined"
+                size="small"
+                onChange={(e) => setContact(e.target.value)}
+              />
+            </>
+          )}
           {/* <MobileDatePicker
           label="Date mobile"
           inputFormat="MM/dd/yyyy"
@@ -209,10 +242,52 @@ const Ticket = () => {
             </>
           )}
 
-          <Button variant="contained" color="primary" onClick={print}>
+          <Button variant="contained" color="primary" onClick={handlePrint}>
             Print
           </Button>
         </Grid>
+      </div>
+      <div className="hidden">
+        {departTime && departDay && (
+          <div ref={billet}>
+            <Typography variant="h3" component="h3">
+              Groupe Sonef
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Billet Voyageur
+            </Typography>
+            <Typography variant="h5" component="h5">
+              {ref}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              {new Date(Date.now()).getDate()}/{new Date(Date.now()).getMonth()}
+              /{new Date(Date.now()).getFullYear()}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              CONVOCATION {departTime._d.getHours()}:
+              {departTime._d.getMinutes()}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              M. / MME : {name}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Contact : {contact}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              {depart} / {arrival}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Depart : {departDay._d.getDate()}/{departDay._d.getMonth() + 1}/
+              {departDay._d.getFullYear()}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Expiration :{" "}
+              {new Date(departDay._d.getTime() + 2629800000).getDate()}/
+              {new Date(departDay._d.getTime() + 2629800000).getMonth() + 1}/
+              {new Date(departDay._d.getTime() + 2629800000).getFullYear()}
+            </Typography>
+          </div>
+        )}
       </div>
     </div>
   );
