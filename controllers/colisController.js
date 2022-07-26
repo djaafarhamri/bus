@@ -27,7 +27,8 @@ module.exports.add_colis = async (req, res) => {
       beneficiare,
       remarque,
     });
-    res.status(200).json("success");
+    await Truck.updateOne({ id: foundBus.id }, { $push: { colis: ref } });
+    return res.status(200).json("success");
   } catch (err) {
     console.log(err);
     res.status(400).json(err);

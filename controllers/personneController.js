@@ -11,7 +11,6 @@ module.exports.add_personne = async (req, res) => {
     depart_time,
     depart_day,
   } = req.body;
-  console.log(req.body);
   const ref = uuidv4().substring(0, 8);
   try {
     const foundBus = await bus.find({
@@ -33,7 +32,8 @@ module.exports.add_personne = async (req, res) => {
           departTime: depart_time,
           departDay: depart_day,
         });
-        res.status(200).json("success");
+        await bus.updateOne({ id: t.id }, { $push: { personnes: ref } });
+        return res.status(200).json("success");
       }
     }
     return res.status(400).json({ error: "max colis reached" });
