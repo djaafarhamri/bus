@@ -25,11 +25,11 @@ const personneSchema = mongoose.Schema(
       required: [true, "please enter your contact"],
     },
     departTime: {
-      type: String,
+      type: Date,
       required: [true, "please enter your depart"],
     },
     departDay: {
-      type: String,
+      type: Date,
       required: [true, "please enter your depart"],
     },
     creation_date: {

@@ -4,8 +4,6 @@ const uuidv4 = require("uuid").v4;
 
 module.exports.add_personne = async (req, res) => {
   const {
-    bus,
-    montant,
     name,
     depart_ville,
     arrival_ville,
@@ -22,11 +20,11 @@ module.exports.add_personne = async (req, res) => {
       return res.status(400).json({ error: "bus not found" });
     }
     for (let t in foundBus) {
-      if (t.personnes.length < t.max_personnes) {
+      if (!t.personnes || t.personnes.length < t.max_personnes) {
         await Personne.create({
-          bus,
+          bus: t.ref,
           ref,
-          montant,
+          montant: t.ticket_price,
           name,
           depart_ville,
           arrival_ville,

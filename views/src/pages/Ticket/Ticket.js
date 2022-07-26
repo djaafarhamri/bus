@@ -76,8 +76,42 @@ const Ticket = () => {
       })
       .catch((err) => console.log(err));
   }, [depart, category]);
-  const addColis = () => {};
-  const addPersonne = () => {};
+  const addPersonne = async () => {
+    await axios
+      .post(
+        `http://localhost:4000/personne/add_personne`,
+        {
+          name,
+          depart_ville: depart,
+          arrival_ville: arrival,
+          contact,
+          depart_time: departTime,
+          depart_day: departDay,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const addColis = async () => {
+    await axios
+      .post(
+        `http://localhost:4000/colis/add_colis`,
+        {
+          frais,
+          depart_ville: depart,
+          arrival_ville: arrival,
+          expediteur,
+          beneficiare,
+          remarque,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="w-full flex flex-col items-center">
