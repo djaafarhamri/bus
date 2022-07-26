@@ -11,6 +11,7 @@ module.exports.add_personne = async (req, res) => {
     depart_time,
     depart_day,
   } = req.body;
+  console.log(req.body);
   const ref = uuidv4().substring(0, 8);
   try {
     const foundBus = await bus.find({
@@ -19,20 +20,19 @@ module.exports.add_personne = async (req, res) => {
     if (!foundBus) {
       return res.status(400).json({ error: "bus not found" });
     }
-    for (let t in foundBus) {
+    for (let t of foundBus) {
       if (!t.personnes || t.personnes.length < t.max_personnes) {
         await Personne.create({
-          bus: t.ref,
+          bus: t.id,
           ref,
           montant: t.ticket_price,
           name,
           depart_ville,
           arrival_ville,
           contact,
-          depart_time,
-          depart_day,
+          departTime: depart_time,
+          departDay: depart_day,
         });
-        await bus.updateOne({ ref: foundBus.ref }, { $push: { colis: ref } });
         res.status(200).json("success");
       }
     }
