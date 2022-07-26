@@ -6,7 +6,6 @@ import {
   Button,
   TextField,
   Grid,
-  Container,
   Select,
   MenuItem,
   InputLabel,
@@ -28,8 +27,6 @@ const Ticket = () => {
   const [arrival, setArrival] = useState();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
-  const [ref, setRef] = useState("");
-  const [bus, setBus] = useState("");
   const [frais, setFrais] = useState(0);
   const [remarque, setRemarque] = useState("");
   const [expediteur, setExpediteur] = useState("");
@@ -79,7 +76,8 @@ const Ticket = () => {
       })
       .catch((err) => console.log(err));
   }, [depart, category]);
-  const print = () => {};
+  const addColis = () => {};
+  const addPersonne = () => {};
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -96,15 +94,6 @@ const Ticket = () => {
           alignItems="center"
           spacing={2}
         >
-          <TextField
-            margin="normal"
-            id="outlined-basic"
-            label="Reference*"
-            variant="outlined"
-            size="small"
-            fullWidth
-            onChange={(e) => setRef(e.target.value)}
-          />
           <FormControl fullWidth>
             <InputLabel id="CategoryID">Category</InputLabel>
             <Select
@@ -180,30 +169,31 @@ const Ticket = () => {
                 size="small"
                 onChange={(e) => setContact(e.target.value)}
               />
-            </>
-          )}
-          {/* <MobileDatePicker
+              {/* <MobileDatePicker
           label="Date mobile"
           inputFormat="MM/dd/yyyy"
           value={value}
           onChange={handleChange}
           renderInput={(params) => <TextField {...params} />}
         /> */}
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DesktopDatePicker
-              label="Depart Date"
-              inputFormat="MM/DD/yyyy"
-              value={departDay}
-              onChange={handleDayChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-            <TimePicker
-              label="Time"
-              value={departTime}
-              onChange={handleTimeChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <DesktopDatePicker
+                  label="Depart Date"
+                  inputFormat="MM/DD/yyyy"
+                  value={departDay}
+                  onChange={handleDayChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+                <TimePicker
+                  label="Time"
+                  value={departTime}
+                  onChange={handleTimeChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </>
+          )}
+
           {category === "colis" && (
             <>
               <TextField
@@ -245,19 +235,25 @@ const Ticket = () => {
           <Button variant="contained" color="primary" onClick={handlePrint}>
             Print
           </Button>
+          {category === "personne" ? (
+            <Button variant="contained" color="primary" onClick={addPersonne}>
+              Add
+            </Button>
+          ) : (
+            <Button variant="contained" color="primary" onClick={addColis}>
+              Add
+            </Button>
+          )}
         </Grid>
       </div>
       <div className="hidden">
-        {departTime && departDay && (
+        {category === "personne" && departTime && departDay && (
           <div ref={billet}>
             <Typography variant="h3" component="h3">
               Groupe Sonef
             </Typography>
             <Typography variant="h5" component="h5">
               Billet Voyageur
-            </Typography>
-            <Typography variant="h5" component="h5">
-              {ref}
             </Typography>
             <Typography variant="h5" component="h5">
               {new Date(Date.now()).getDate()}/{new Date(Date.now()).getMonth()}
@@ -285,6 +281,47 @@ const Ticket = () => {
               {new Date(departDay._d.getTime() + 2629800000).getDate()}/
               {new Date(departDay._d.getTime() + 2629800000).getMonth() + 1}/
               {new Date(departDay._d.getTime() + 2629800000).getFullYear()}
+            </Typography>
+          </div>
+        )}
+        {category === "colis" && departTime && departDay && (
+          <div ref={billet}>
+            <Typography variant="h3" component="h3">
+              Premiere Classe
+            </Typography>
+            <Typography variant="h5" component="h5">
+              {depart}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              {arrival}
+            </Typography>
+            <Typography variant="h5" component="h5">
+              -------------------------------------
+            </Typography>
+            <Typography variant="h5" component="h5">
+              BAGUAGE <span className="ml-16">Frais: {frais}</span>
+            </Typography>
+            <Typography variant="h5" component="h5">
+              DATE{" "}
+              <span className="ml-24">
+                {new Date(Date.now()).getDate()}/
+                {new Date(Date.now()).getMonth()}/
+                {new Date(Date.now()).getFullYear()}-
+                {new Date(Date.now()).getHours()}:
+                {new Date(Date.now()).getMinutes()}
+              </span>
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Expediteur <span className="ml-12">{expediteur}</span>
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Beneficiaire <span className="ml-11">{beneficiare}</span>
+            </Typography>
+            <Typography variant="h5" component="h5">
+              Remarque <span className="ml-11">{remarque}</span>
+            </Typography>
+            <Typography variant="h5" component="h5" style={{ fontWeight: 700 }}>
+              NB: la duree de guarantie de <br></br> ce colis est de 15 jours.
             </Typography>
           </div>
         )}

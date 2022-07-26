@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //Sign up
-const colisSchema = mongoose.Schema(
+const personneSchema = mongoose.Schema(
   {
     bus: {
         type: String,
@@ -37,11 +37,11 @@ const colisSchema = mongoose.Schema(
         default: Date.now(),
     }
   },
-  { collection: "colis" }
+  { collection: "personnes" }
 );
 
 
 
-const model = mongoose.model("colisSchema", colisSchema);
+const model = mongoose.model("personneSchema", personneSchema);
 
 module.exports = model;

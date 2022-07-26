@@ -1,38 +1,40 @@
-const Colis = require("../models/colis");
-const Truck = require("../models/truck");
+const Personne = require("../models/personne");
+const bus = require("../models/bus");
 const uuidv4 = require("uuid").v4;
 
-module.exports.add_colis = async (req, res) => {
+module.exports.add_personne = async (req, res) => {
   const {
-    truck,
-    frais,
+    bus,
+    montant,
+    name,
     depart_ville,
     arrival_ville,
-    expediteur,
-    beneficiaire,
-    remarque,
+    contact,
+    depart_time,
+    depart_day,
   } = req.body;
   const ref = uuidv4().substring(0, 8);
   try {
-    const foundBus = await Truck.find({
+    const foundBus = await bus.find({
       $and: [{ depart_ville }, { arrival_ville }],
     });
     if (!foundBus) {
       return res.status(400).json({ error: "bus not found" });
     }
     for (let t in foundBus) {
-      if (t.colis.length < t.max_colis) {
-        await Colis.create({
-          truck,
+      if (t.personnes.length < t.max_personnes) {
+        await Personne.create({
+          bus,
           ref,
-          frais,
+          montant,
+          name,
           depart_ville,
           arrival_ville,
-          expediteur,
-          beneficiaire,
-          remarque,
+          contact,
+          depart_time,
+          depart_day,
         });
-        await Truck.updateOne({ ref: foundBus.ref }, { $push: { colis: ref } });
+        await bus.updateOne({ ref: foundBus.ref }, { $push: { colis: ref } });
         res.status(200).json("success");
       }
     }

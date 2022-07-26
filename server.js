@@ -13,6 +13,7 @@ const userRoute = require("./routes/userRoute");
 const busRoute = require("./routes/busRoute");
 const truckRoute = require("./routes/truckRoute");
 const colisRoute = require("./routes/colisRoute");
+const personneRoute = require("./routes/personneRoute");
 
 
 const PORT = process.env.PORT || 4000;
@@ -66,5 +67,6 @@ app.use("/user", userRoute);
 app.use("/bus", busRoute);
 app.use("/truck", truckRoute);
 app.use("/colis", colisRoute);
+app.use("/personne", personneRoute);
 
 
