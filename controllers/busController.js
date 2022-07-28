@@ -158,7 +158,7 @@ module.exports.getAllPersonnesByDate = async (req, res) => {
   const { bus, date } = req.body;
   console.log(req.body);
   await Bus.findOne({ id: bus })
-    .then((bus) => {
+    .then(async (bus) => {
       console.log(bus.id);
       // res filter allpersonnes by date
       const allPersonnes = bus.allPersonnes.filter(
@@ -166,20 +166,14 @@ module.exports.getAllPersonnesByDate = async (req, res) => {
           personne.addedAt >= startOfDay(new Date(date)) &&
           personne.addedAt <= endOfDay(new Date(date))
       );
-      var data = [];
-      allPersonnes
-        .forEach(async function (per) {
-          await Personne.findOne({ id: per.personne })
-            .then((p) => {
-              data.push(p);
+          await Personne.find({ id: { $in: allPersonnes.map((personne) => personne.personne) } })
+            .then((data) => {
+              return res.status(200).json(data);
             })
             .catch((err) => {
               return res.status(400).json(err);
             });
         })
-          console.log("data : ", data);
-          res.status(200).json(data);
-    })
     .catch((err) => {
       res.status(400).json(err);
     });
