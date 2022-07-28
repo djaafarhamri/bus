@@ -14,40 +14,40 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DataGrid } from "@mui/x-data-grid";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 70, editable: false },
-  {
-    field: "name",
-    headerName: "name",
-    width: 160,
-  },
-  {
-    field: "contact",
-    headerName: "contact",
-    width: 160,
-  },
-  {
-    field: "montant",
-    headerName: "montant",
-    width: 120,
-  },
-  {
-    field: "departTime",
-    headerName: "departTime",
-    width: 120,
-  },
-  {
-    field: "departDay",
-    headerName: "departDay",
-    width: 160,
-  },
-];
-
 const Historique = () => {
   const [allBus, setAllBus] = useState([]);
   const [bus, setBus] = useState();
   const [date, setDate] = useState();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 140 },
+    {
+      field: "name",
+      headerName: "name",
+      width: 200,
+    },
+    {
+      field: "contact",
+      headerName: "contact",
+      width: 200,
+    },
+    {
+      field: "montant",
+      headerName: "montant",
+      width: 120,
+    },
+    {
+      field: `departTime`,
+      headerName: "departTime",
+      width: 120,
+    },
+    {
+      field: "departDay",
+      headerName: "departDay",
+      width: 160,
+    },
+  ];
 
   useEffect(() => {
     axios
@@ -78,8 +78,23 @@ const Historique = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
-        setData(res.data);
+        const newArr = res.data.map((obj) => {
+          return {
+            ...obj,
+            departTime: `${new Date(obj.departTime).getHours()}:${new Date(
+              obj.departTime
+            ).getMinutes()}`,
+          };
+        });
+        const newArr2 = newArr.map((obj) => {
+          return {
+            ...obj,
+            departDay: `${new Date(obj.departDay).getDate()}/${new Date(
+              obj.departDay
+            ).getMonth()}/${new Date(obj.departDay).getFullYear()}`,
+          };
+        });
+        setData(newArr2);
       })
       .catch((err) => {
         console.log(err);
@@ -87,49 +102,47 @@ const Historique = () => {
   };
 
   return (
-    <div>
-      <div>
-        <Typography variant="h5" component="h5">
-          choose a bus
-        </Typography>
-        <FormControl fullWidth>
-          <InputLabel id="CategoryID">Category</InputLabel>
-          <Select
-            labelId="CategoryID"
-            id="category"
-            value={bus}
-            label="Category"
-            onChange={(e) => {
-              setBus(e.target.value);
-            }}
-          >
-            {allBus.map((bus) => (
-              <MenuItem value={bus.id}>
-                {bus.id}-{bus.depart_ville}/{bus.arrival_ville}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          <DesktopDatePicker
-            label="Depart Date"
-            inputFormat="MM/DD/yyyy"
-            value={date}
-            onChange={handleDayChange}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Button variant="contained" color="primary" onClick={search}>
-          Search
-        </Button>
-        {data && (
-          <DataGrid
-            rows={data}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          />
-        )}
+    <div className="w-full">
+      <Typography variant="h5" component="h5">
+        choose a bus
+      </Typography>
+      <FormControl fullWidth>
+        <InputLabel id="CategoryID">Category</InputLabel>
+        <Select
+          labelId="CategoryID"
+          id="category"
+          value={bus}
+          label="Category"
+          onChange={(e) => {
+            setBus(e.target.value);
+          }}
+        >
+          {allBus.map((bus) => (
+            <MenuItem value={bus.id}>
+              {bus.id}-{bus.depart_ville}/{bus.arrival_ville}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+        <DesktopDatePicker
+          label="Depart Date"
+          inputFormat="MM/DD/yyyy"
+          value={date}
+          onChange={handleDayChange}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+      <Button variant="contained" color="primary" onClick={search}>
+        Search
+      </Button>
+      <div className="h-[400px] w-full mt-10">
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
       </div>
     </div>
   );
