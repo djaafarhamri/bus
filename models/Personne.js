@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 //Sign up
-const personneSchema = mongoose.Schema(
+const personneSchema = new mongoose.Schema(
   {
     bus: {
         type: String,
         required: [true, "please enter a bus"],
     },
-    ref: {
+    id: {
       type: String,
       required: [true, "please enter a ref"],
       unique: true,

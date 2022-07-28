@@ -1,5 +1,7 @@
 const Bus = require("../models/bus");
-const Truck = require("../models/truck");
+const Personne = require("../models/personne");
+const endOfDay = require("date-fns/endOfDay");
+const startOfDay = require("date-fns/startOfDay");
 
 module.exports.add_bus = async (req, res) => {
   const {
@@ -26,7 +28,6 @@ module.exports.add_bus = async (req, res) => {
       res.status(400).json(err);
     });
 };
-
 
 module.exports.edit_id = async (req, res) => {
   const { id, value } = req.body;
@@ -105,7 +106,6 @@ module.exports.edit_max_personnes = async (req, res) => {
     });
 };
 
-
 module.exports.delete = async (req, res) => {
   const { id } = req.body;
   await Bus.findOneAndDelete({ id })
@@ -152,4 +152,35 @@ module.exports.getAllByDepart = async (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}
+};
+
+module.exports.getAllPersonnesByDate = async (req, res) => {
+  const { bus, date } = req.body;
+  console.log(req.body);
+  await Bus.findOne({ id: bus })
+    .then((bus) => {
+      console.log(bus.id);
+      // res filter allpersonnes by date
+      const allPersonnes = bus.allPersonnes.filter(
+        (personne) =>
+          personne.addedAt >= startOfDay(new Date(date)) &&
+          personne.addedAt <= endOfDay(new Date(date))
+      );
+      var data = [];
+      allPersonnes
+        .forEach(async function (per) {
+          await Personne.findOne({ id: per.personne })
+            .then((p) => {
+              data.push(p);
+            })
+            .catch((err) => {
+              return res.status(400).json(err);
+            });
+        })
+          console.log("data : ", data);
+          res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};

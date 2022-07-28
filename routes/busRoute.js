@@ -16,5 +16,6 @@ router.post("/delete", requireAdmin, busController.delete);
 
 router.get("/getAll", busController.getAll);
 router.get("/getAllByDepart/:depart", busController.getAllByDepart);
+router.post("/getAllPersonnesByDate", busController.getAllPersonnesByDate);
 
 module.exports = router;

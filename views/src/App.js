@@ -6,6 +6,7 @@ import Bus from './pages/Bus/Bus';
 import AddBus from './pages/Add-Bus/AddBus';
 import Login from './pages/LoginPage/Login';
 import Ticket from './pages/Ticket/Ticket';
+import Historique from './pages/Historique/Historique';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/add-bus" element={<AddBus />} />
         <Route path="/login" element={<Login />} />
         <Route path="/ticket" element={<Ticket />} />
+        <Route path="/historique" element={<Historique />} />
       </Routes>
     </div>
   );

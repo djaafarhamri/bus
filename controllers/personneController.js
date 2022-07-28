@@ -1,5 +1,5 @@
 const Personne = require("../models/personne");
-const bus = require("../models/bus");
+const Bus = require("../models/bus");
 const uuidv4 = require("uuid").v4;
 
 module.exports.add_personne = async (req, res) => {
@@ -11,19 +11,21 @@ module.exports.add_personne = async (req, res) => {
     depart_time,
     depart_day,
   } = req.body;
-  const ref = uuidv4().substring(0, 8);
+  const id = uuidv4().substring(0, 8);
+  console.log(id)
   try {
-    const foundBus = await bus.find({
+    const foundBus = await Bus.find({
       $and: [{ depart_ville }, { arrival_ville }],
     });
     if (!foundBus) {
-      return res.status(400).json({ error: "bus not found" });
+      return res.status(400).json({ error: "Bus not found" });
     }
     for (let t of foundBus) {
       if (!t.personnes || t.personnes.length < t.max_personnes) {
+        console.log(t.id);
         await Personne.create({
           bus: t.id,
-          ref,
+          id,
           montant: t.ticket_price,
           name,
           depart_ville,
@@ -32,7 +34,8 @@ module.exports.add_personne = async (req, res) => {
           departTime: depart_time,
           departDay: depart_day,
         });
-        await bus.updateOne({ id: t.id }, { $push: { personnes: ref } });
+        await Bus.updateOne({ id: t.id }, { $push: { personnes: id } });
+        await Bus.updateOne({ id: t.id }, { $push: { allPersonnes: {personne: id} } });
         return res.status(200).json("success");
       }
     }

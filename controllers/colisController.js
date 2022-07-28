@@ -11,7 +11,7 @@ module.exports.add_colis = async (req, res) => {
     beneficiare,
     remarque,
   } = req.body;
-  const ref = uuidv4().substring(0, 8);
+  const id = uuidv4().substring(0, 8);
   try {
     const foundBus = await Truck.findOne({ depart_ville, arrival_ville });
     if (!foundBus) {
@@ -19,7 +19,7 @@ module.exports.add_colis = async (req, res) => {
     }
     await Colis.create({
       truck: foundBus.id,
-      ref,
+      id,
       frais,
       depart_ville,
       arrival_ville,
@@ -27,7 +27,8 @@ module.exports.add_colis = async (req, res) => {
       beneficiare,
       remarque,
     });
-    await Truck.updateOne({ id: foundBus.id }, { $push: { colis: ref } });
+    await Truck.updateOne({ id: foundBus.id }, { $push: { colis: id } });
+    await Truck.updateOne({ id: foundBus.id }, { $push: { allColis: id } });
     return res.status(200).json("success");
   } catch (err) {
     console.log(err);

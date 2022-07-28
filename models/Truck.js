@@ -29,6 +29,17 @@ const truckSchema = mongoose.Schema(
         type: String,
       },
     ],
+    allColis: [
+      {
+        colis: {
+          type: String,
+        },
+        addedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { collection: "trucks" }
 );

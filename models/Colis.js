@@ -7,7 +7,7 @@ const colisSchema = mongoose.Schema(
         type: String,
         required: [true, "please enter a bus"],
     },
-    ref: {
+    id: {
       type: String,
       required: [true, "please enter a ref"],
       unique: true,

@@ -33,14 +33,24 @@ const busSchema = mongoose.Schema(
         type: String,
       },
     ],
+    allPersonnes: [
+      {
+        personne: {
+          type: String,
+        },
+        addedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { collection: "buses" }
 );
 
-
-busSchema.pre('validate', function (next) {
+busSchema.pre("validate", function (next) {
   console.log("this: ", this);
-  if (this.personnes.length < this.max_personnes){
+  if (this.personnes.length < this.max_personnes) {
     next();
   } else {
     var error = new mongoose.Error.ValidationError(this);
@@ -53,7 +63,6 @@ busSchema.pre('validate', function (next) {
     return next(error);
   }
 });
-
 
 const model = mongoose.model("busSchema", busSchema);
 
