@@ -3,6 +3,6 @@ const router = Router();
 const personneController = require("../controllers/personneController");
 const { requireAdmin, checkUser } = require("../middlewares/authMiddleware");
 
-router.post("/add_personne", personneController.add_personne);
+router.post("/add_personne", requireAdmin, personneController.add_personne);
 
 module.exports = router;

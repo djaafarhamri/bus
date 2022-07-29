@@ -87,6 +87,8 @@ const Ticket = () => {
           contact,
           depart_time: departTime,
           depart_day: departDay,
+        }, {
+          withCredentials: true,
         }
       )
       .then((res) => {
@@ -105,6 +107,8 @@ const Ticket = () => {
           expediteur,
           beneficiare,
           remarque,
+        }, {
+          withCredentials: true,
         }
       )
       .then((res) => {

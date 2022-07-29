@@ -15,12 +15,37 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DataGrid } from "@mui/x-data-grid";
 
 const Historique = () => {
+  const [category, setCategory] = useState("bus");
   const [allBus, setAllBus] = useState([]);
   const [bus, setBus] = useState();
   const [date, setDate] = useState();
   const [data, setData] = useState([]);
 
-  const columns = [
+  const truckColumns = [
+    { field: "id", headerName: "ID", width: 140 },
+    {
+      field: "frais",
+      headerName: "frais",
+      width: 200,
+    },
+    {
+      field: "expediteur",
+      headerName: "expediteur",
+      width: 200,
+    },
+    {
+      field: "beneficiare",
+      headerName: "beneficiare",
+      width: 120,
+    },
+    {
+      field: `remarque`,
+      headerName: "remarque",
+      width: 120,
+    }
+  ];
+
+  const busColumns = [
     { field: "id", headerName: "ID", width: 140 },
     {
       field: "name",
@@ -51,21 +76,21 @@ const Historique = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/bus/getAll")
+      .get(`http://localhost:4000/${category}/getAll`)
       .then((res) => {
         setAllBus(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [category]);
 
   const handleDayChange = (newValue) => {
     console.log(newValue._d, bus);
     setDate(newValue);
   };
 
-  const search = () => {
+  const searchBus = () => {
     axios
       .post(
         "http://localhost:4000/bus/getAllPersonnesByDate",
@@ -101,18 +126,57 @@ const Historique = () => {
       });
   };
 
+  const searchTruck = () => {
+    axios
+      .post(
+        "http://localhost:4000/truck/getAllColisByDate",
+        {
+          bus,
+          date,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="w-full">
       <Typography variant="h5" component="h5">
-        choose a bus
+        choose a category
       </Typography>
       <FormControl fullWidth>
         <InputLabel id="CategoryID">Category</InputLabel>
         <Select
           labelId="CategoryID"
           id="category"
-          value={bus}
+          value={category}
           label="Category"
+          onChange={(e) => {
+            setCategory(e.target.value);
+          }}
+        >
+          <MenuItem value="bus">bus</MenuItem>
+          <MenuItem value="truck">camion</MenuItem>
+        </Select>
+      </FormControl>
+      <Typography variant="h5" component="h5">
+        choose a {category}
+      </Typography>
+      <FormControl fullWidth>
+        <InputLabel id="BusID">Category</InputLabel>
+        <Select
+          labelId="BusID"
+          id="bus"
+          value={bus}
+          label={category}
           onChange={(e) => {
             setBus(e.target.value);
           }}
@@ -133,13 +197,19 @@ const Historique = () => {
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
-      <Button variant="contained" color="primary" onClick={search}>
-        Search
-      </Button>
+      {category === "bus" ? (
+        <Button variant="contained" color="primary" onClick={searchBus}>
+          Search
+        </Button>
+      ) : (
+        <Button variant="contained" color="primary" onClick={searchTruck}>
+          Search
+        </Button>
+      )}
       <div className="h-[400px] w-full mt-10">
         <DataGrid
           rows={data}
-          columns={columns}
+          columns={category === 'bus' ? busColumns : truckColumns}
           pageSize={5}
           rowsPerPageOptions={[5]}
         />
