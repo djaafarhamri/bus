@@ -14,8 +14,8 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Users = () => {
   const [role, setRole] = useState("vendor");
@@ -41,8 +41,28 @@ const Users = () => {
     event.preventDefault();
   };
 
-  const add_user =() => {
-    console.log(firstName, lastName, phone, email, password, role);
+  const add_user = () => {
+    axios
+      .post(
+        "http://localhost:4000/user/add_user",
+        {
+          role,
+          email,
+          password,
+          first_name: firstName,
+          last_name: lastName,
+          phone_number: phone,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -81,7 +101,7 @@ const Users = () => {
           size="small"
           fullWidth
           onChange={(e) => setEmail(e.target.value)}
-          />
+        />
         <TextField
           margin="normal"
           id="outlined-basic"
@@ -90,7 +110,7 @@ const Users = () => {
           size="small"
           fullWidth
           onChange={(e) => setFirstName(e.target.value)}
-          />
+        />
         <TextField
           margin="normal"
           id="outlined-basic"
@@ -109,7 +129,7 @@ const Users = () => {
           fullWidth
           onChange={(e) => setPhone(e.target.value)}
         />
-        
+
         <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             Password
@@ -118,7 +138,9 @@ const Users = () => {
             id="outlined-adornment-password"
             type={values.showPassword ? "text" : "password"}
             value={password}
-            onChange={(e) => {setPassword(e.target.value)}}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton

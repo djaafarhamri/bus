@@ -3,29 +3,24 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// module.exports.register = async (req, res) => {
-//   const { email, first_name, last_name, phone_number, password } = req.body;
-//   console.log(req.body);
-//   try {
-//     console.log("1");
-//     const user = new User({
-//       email,
-//       first_name,
-//       last_name,
-//       phone_number,
-//       password,
-//     });
-//     console.log("2");
-//     await user.save();
-//     console.log("3");
-//     const token = createToken({ id: user._id, role: user.role });
-//     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-//     res.status(200).json("register succeed");
-//   } catch (err) {
-//     console.log("error: ", err);
-//     res.status(400).send(err);
-//   }
-// };
+module.exports.add_user = async (req, res) => {
+  const { email, first_name, last_name, phone_number, password, role } =
+    req.body;
+  await User.create({
+    email,
+    first_name,
+    last_name,
+    phone_number,
+    password,
+    role,
+  })
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -41,7 +36,7 @@ module.exports.login = async (req, res) => {
 
   try {
     const user = await User.login(email, password);
-    console.log(user)
+    console.log(user);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
