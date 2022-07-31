@@ -8,8 +8,6 @@ router.post("/add_user", requireAdmin, userController.add_user);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
 router.post("/edit/:_id", checkUser, userController.edit_user_info);
-router.get("/test", requireAdmin, async (req, res) => {
-  res.send("test");
-});
+router.get("/getAll", userController.getAll);
 
 module.exports = router;

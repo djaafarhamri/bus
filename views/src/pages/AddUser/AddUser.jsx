@@ -17,7 +17,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const Users = () => {
+const AddUser = () => {
   const [role, setRole] = useState("vendor");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -165,4 +165,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default AddUser;
