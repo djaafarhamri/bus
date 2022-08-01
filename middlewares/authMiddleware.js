@@ -11,8 +11,7 @@ const checkUser = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
-        res.send(null)
-        next();
+        res.status(404).send('err')
     } else {
         let user = await User.findById(decodedToken.id);
         req.user = user
@@ -20,8 +19,7 @@ const checkUser = (req, res, next) => {
       }
     });
   } else {
-    res.send(null);
-    next();
+    res.status(404).send('no token');
   }
 };
 // check admin user

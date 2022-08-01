@@ -9,5 +9,8 @@ router.post("/login", userController.login);
 router.get("/logout", userController.logout);
 router.post("/edit/:_id", checkUser, userController.edit_user_info);
 router.get("/getAll", userController.getAll);
+router.get("/check-user", checkUser, (req, res) => {
+  res.send({ user: req.user });
+});
 
 module.exports = router;
