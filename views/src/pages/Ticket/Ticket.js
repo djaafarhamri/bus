@@ -39,7 +39,6 @@ const Ticket = () => {
   };
 
   const handleDayChange = (newValue) => {
-    console.log(newValue._d);
     setDepartDay(newValue);
   };
 

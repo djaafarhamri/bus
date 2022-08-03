@@ -27,7 +27,7 @@ function App() {
         <Route
           path="/"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin', 'vendor']}>
               <Camion />
             </CheckUser>
           }
@@ -35,7 +35,7 @@ function App() {
         <Route
           path="/bus"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin', 'vendor']}>
               <Bus />
             </CheckUser>
           }
@@ -43,7 +43,7 @@ function App() {
         <Route
           path="/add-bus"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin']}>
               <AddBus />
             </CheckUser>
           }
@@ -52,7 +52,7 @@ function App() {
         <Route
           path="/ticket"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin', 'vendor']}>
               <Ticket />
             </CheckUser>
           }
@@ -60,7 +60,7 @@ function App() {
         <Route
           path="/historique"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin', 'vendor']}>
               <Historique />
             </CheckUser>
           }
@@ -68,7 +68,7 @@ function App() {
         <Route
           path="/users"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin']}>
               <Users />
             </CheckUser>
           }
@@ -76,7 +76,7 @@ function App() {
         <Route
           path="/add-user"
           element={
-            <CheckUser>
+            <CheckUser roles={['admin']}>
               <AddUser />
             </CheckUser>
           }

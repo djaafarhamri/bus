@@ -12,7 +12,6 @@ module.exports.add_bus = async (req, res) => {
     arrival_ville,
     max_personnes,
   } = req.body;
-  console.log(req.body);
   await Bus.create({
     id,
     ticket_price,
@@ -156,10 +155,8 @@ module.exports.getAllByDepart = async (req, res) => {
 
 module.exports.getAllPersonnesByDate = async (req, res) => {
   const { bus, date } = req.body;
-  console.log(req.body);
   await Bus.findOne({ id: bus })
     .then(async (bus) => {
-      console.log(bus.id);
       // res filter allpersonnes by date
       const allPersonnes = bus.allPersonnes.filter(
         (personne) =>

@@ -4,21 +4,27 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 
-const CheckUser = ({ children }) => {
+const CheckUser = ({ children, roles }) => {
   const [user, setUser] = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:4000/user/check-user", { withCredentials: true })
+      .post(`http://localhost:4000/user/check-user`, {roles}, { withCredentials: true })
       .then((res) => {
         setIsLoading(false);
         setUser(res.data.user);
       })
       .catch((err) => {
-        navigate("/login");
+        console.log('err : ', err.response.data);
+        if (err.response.data === "login!admin") {
+          alert("not admin");
+          navigate("/");
+        } else {
+          navigate("/login");
+        }
       });
-  }, [isLoading, navigate, setUser]);
+  }, [isLoading, navigate, roles, setUser]);
 
   return user ? children : <p>loading...</p>;
 };

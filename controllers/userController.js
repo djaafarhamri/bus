@@ -32,11 +32,9 @@ const createToken = (id) => {
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
 
   try {
     const user = await User.login(email, password);
-    console.log(user);
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });

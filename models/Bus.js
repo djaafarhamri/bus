@@ -49,7 +49,6 @@ const busSchema = mongoose.Schema(
 );
 
 busSchema.pre("validate", function (next) {
-  console.log("this: ", this);
   if (this.personnes.length < this.max_personnes) {
     next();
   } else {

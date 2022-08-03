@@ -1,10 +1,12 @@
 import { TextField, Button } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
 
   const login = async () => {
     const data = {
@@ -15,6 +17,7 @@ const Login = () => {
       .post("http://localhost:4000/user/login", data, {withCredentials: true})
       .then((res) => {
         console.log(res.data);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

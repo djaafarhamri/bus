@@ -86,7 +86,6 @@ const Historique = () => {
   }, [category]);
 
   const handleDayChange = (newValue) => {
-    console.log(newValue._d, bus);
     setDate(newValue);
   };
 

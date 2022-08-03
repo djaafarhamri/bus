@@ -4,7 +4,6 @@ const endOfDay = require("date-fns/endOfDay");
 const startOfDay = require("date-fns/startOfDay");
 
 module.exports.add_truck = async (req, res) => {
-  console.log('truck');
   const {
     id,
     frais,
@@ -13,7 +12,6 @@ module.exports.add_truck = async (req, res) => {
     arrival_ville,
     max_colis,
   } = req.body;
-  console.log(req.body);
   await Truck.create({
     id,
     frais,
@@ -159,18 +157,14 @@ module.exports.getAllByDepart = async (req, res) => {
 
 module.exports.getAllColisByDate = async (req, res) => {
   const { bus, date } = req.body;
-  console.log(req.body);
   await Truck.findOne({ id: bus })
     .then(async (bus) => {
-      console.log(bus.id);
-      console.log(bus.allColis);
       // res filter allpersonnes by date
       const allColis = bus.allColis.filter(
         (colis) =>
         colis.addedAt >= startOfDay(new Date(date)) &&
         colis.addedAt <= endOfDay(new Date(date))
         );
-        console.log(allColis);
         await Colis.find({ id: { $in: allColis.map((colis) => colis.colis) } })
             .then((data) => {
               return res.status(200).json(data);

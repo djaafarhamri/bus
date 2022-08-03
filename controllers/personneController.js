@@ -12,7 +12,6 @@ module.exports.add_personne = async (req, res) => {
     depart_day,
   } = req.body;
   const id = uuidv4().substring(0, 8);
-  console.log(id)
   try {
     const foundBus = await Bus.find({
       $and: [{ depart_ville }, { arrival_ville }],
@@ -22,7 +21,6 @@ module.exports.add_personne = async (req, res) => {
     }
     for (let t of foundBus) {
       if (!t.personnes || t.personnes.length < t.max_personnes) {
-        console.log(t.id);
         await Personne.create({
           bus: t.id,
           id,
