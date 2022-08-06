@@ -66,7 +66,7 @@ const AddUser = () => {
   };
 
   return (
-    <div className="m-10">
+    <div className="w-full m-10">
       <Typography variant="h4" className="text-center">
         Add Users
       </Typography>
